@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns:fx="http://javafx.com/fxml" spacing="10" alignment="CENTER"
+      fx:controller="com.bwgjoseph.springjavafxclient.controller.MainController"> 
+
+	<Label fx:id="titleLabel" text="Feathers JavaFX Client" />
+
+	<Button fx:id="register" onAction="#register" text="Register" />
+    <Button fx:id="login" onAction="#login" text="Login" />
+    <Button fx:id="getUsers" onAction="#getUsers" text="Get Users" />
+    
+   	<TextField fx:id="userIdToRemove" promptText="UserId" />
+   	<Button fx:id="removeUser" onAction="#removeUser" text="Remove User" />
+    
+    <TextArea fx:id="textArea" text="Hello world" />
+
+</VBox>
