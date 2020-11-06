@@ -12,14 +12,18 @@ The key concept is to demo on how to:
 6. Use of [constructor-injection](https://reflectoring.io/constructor-injection/) as DI best practice
 7. Use of [@ConfigurationProperties](https://docs.spring.io/spring-boot/docs/current/reference/html/spring-boot-features.html#boot-features-external-config-typesafe-configuration-properties) for typesafe configuration. See `FeathersConfig`
 8. Use of [configuration-metadata](https://docs.spring.io/spring-boot/docs/2.3.1.RELEASE/reference/html/appendix-configuration-metadata.html#configuration-metadata-annotation-processor) to provide auto-completion in `application.properties`
+9. Use of Spring-Security [org.springframework.security.core.Authentication](https://docs.spring.io/spring-security/site/docs/5.4.1/api/) to store authenticated user into `SecurityContextHolder` and allow to retrieve via `@AuthenticatedPrincipal` or `@CurrentUser`
+10. Easily use of POJO object and send through websocket using `ObjectMapper` and `JSONObject`. See `AuthenticationRequest` or `User` entity class `toJSONObject` method
 
 The following are yet to be done:
 
 1. Use of [Transports and HTTP Headers](https://github.com/socketio/socket.io-client-java#transports-and-http-headers)?
 2. Use of JWT Token for re-authentication after disconnect
 3. Use of `@Validated` in `@ConfigurationProperties`
-4. Use of Spring-Security [org.springframework.security.core.Authentication](https://docs.spring.io/spring-security/site/docs/5.4.1/api/) to store authenticated user into `SecurityContextHolder` and allow to retrieve via `@AuthenticatedPrincipal` or `@CurrentUser`
-5. Use of [automatic-versioning-of-java-applications-using-git-version-gradle-plugin](https://98elements.com/blog/automatic-versioning-of-java-applications-using-git-version-gradle-plugin/)
+4. Use of [automatic-versioning-of-java-applications-using-git-version-gradle-plugin](https://98elements.com/blog/automatic-versioning-of-java-applications-using-git-version-gradle-plugin/)
+5. Add support for params in CRUD
+6. Use native query builder (like mongo-sdk) to write the query, and then output to json which will be sent to server through socket
+7. Initialize `ObjectMapper` with default prettyprint and timeformat etc
 
 ## Configuration
 
@@ -68,6 +72,7 @@ eclipse {
 - [spring-security-get-password-in-userdetailsservicemethod](https://stackoverflow.com/questions/53445809/spring-security-get-password-in-userdetailsservicemethod)
 - [spring-security-jwt-validation-without-using-usernamepasswordauthenticationtoken](https://stackoverflow.com/questions/62348447/spring-security-jwt-validation-without-using-usernamepasswordauthenticationtoken)
 - [springboot-gradle-plugin-not-working-with-eclipse](https://stackoverflow.com/questions/60140145/springboot-gradle-plugin-not-working-with-eclipse)
+- [jackson-builder-pattern](https://stackoverflow.com/questions/4982340/jackson-builder-pattern)
 
 ## Others
 
@@ -80,3 +85,5 @@ eclipse {
 - [custom-events-and-generic-events-in-spring](https://jstobigdata.com/spring/custom-events-and-generic-events-in-spring/)
 - [spring-event-event-driven](https://laptrinhx.com/spring-event-event-driven-590833238/)
 - [inter-bean-notifications-using-spring-events](https://98elements.com/blog/inter-bean-notifications-using-spring-events/)
+- [Jacksonized](https://projectlombok.org/features/experimental/Jacksonized)
+- [flexible-immutability-with-jackson-and-lombok/](https://sharing.luminis.eu/blog/flexible-immutability-with-jackson-and-lombok/)

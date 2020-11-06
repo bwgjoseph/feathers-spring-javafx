@@ -2,15 +2,20 @@ package com.bwgjoseph.springjavafxclient.controller;
 
 import org.json.JSONException;
 import org.springframework.context.event.EventListener;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
+import com.bwgjoseph.springjavafxclient.context.UserContext;
 import com.bwgjoseph.springjavafxclient.entity.User;
 import com.bwgjoseph.springjavafxclient.event.GenericCreatedEvent;
 import com.bwgjoseph.springjavafxclient.event.UserCreatedEvent;
-import com.bwgjoseph.springjavafxclient.event.UserRemovedEvent;
+import com.bwgjoseph.springjavafxclient.event.UserLoginEvent;
 import com.bwgjoseph.springjavafxclient.event.UserPatchedEvent;
+import com.bwgjoseph.springjavafxclient.event.UserRemovedEvent;
 import com.bwgjoseph.springjavafxclient.service.AuthenticationService;
 import com.bwgjoseph.springjavafxclient.service.Service;
 
@@ -28,6 +33,7 @@ public class MainController {
 	
 	private final Service service;
 	private final AuthenticationService authenticationService;
+	private final UserContext userContext;
 	
 	// Using Constructor-Injection is recommended as it allow us to assert that the dependencies are not null
 	// We can use Setter-Injection if the dependencies is optional
@@ -35,12 +41,14 @@ public class MainController {
 	// Notice that we also inject using Service interface rather than concrete class to allow us to easily swap implementation
 	// If you have multiple implementation class of Service interface, then you will need @Qualifier/@Primary to determine which
 	// dependency should get injected
-	public MainController(Service service, AuthenticationService authenticationService) {
+	public MainController(Service service, AuthenticationService authenticationService, UserContext userContext) {
 		Assert.notNull(service, "service cannot be null");
 		Assert.notNull(authenticationService, "authenticationService cannot be null");
+		Assert.notNull(userContext, "userContext cannot be null");
 		
 		this.service = service;
 		this.authenticationService = authenticationService;
+		this.userContext = userContext;
 	}
 
     @FXML
@@ -101,10 +109,21 @@ public class MainController {
 //    	textArea.setText(textArea.getText() + "\n" + userRemovedEvent.getUser().toString());
     }
     
+    @EventListener(UserLoginEvent.class)
+    public void onUserLoginEvent(UserLoginEvent userLoginEvent) {
+    	// Can set userLoginEvent.getAuthenticationResponse() so can retrieve later on from UserContext
+    	Authentication authentication = new UsernamePasswordAuthenticationToken(userLoginEvent.getAuthenticationResponse().getUser(), null,
+                AuthorityUtils.createAuthorityList("ROLE_USER"));
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        log.info("authentication: " + authentication);
+    }
+    
     @FXML
     public void getUsers() {
     	this.service.find().forEach(data -> log.info(data.toString()));
     	log.info("Auth is" + SecurityContextHolder.getContext());
+    	log.info("context: " + userContext.getCurrentUser());
+    	log.info("authority: " + userContext.getUserGrantedAuthority());
     }
     
     @FXML

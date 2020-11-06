@@ -26,12 +26,12 @@ public class FeathersClient {
 		this.webSocket.getSocket().emit("find", serviceName, callback);
 	}
 	
-	public void create(String serviceName, JSONObject data, Ack callback) {
+	public void create(String serviceName, JSONObject obj, Ack callback) {
 		if (!this.webSocket.getSocket().connected()) {
 			// try to connect, otherwise throw exception
 		}
 		
-		this.webSocket.getSocket().emit("create", serviceName, data, callback);
+		this.webSocket.getSocket().emit("create", serviceName, obj, callback);
 	}
 	
 	public void remove(String serviceName, String id, Ack callback) {

@@ -17,9 +17,9 @@ import lombok.extern.jackson.Jacksonized;
 @Jacksonized
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
-
-	private String _id;
+public class AuthenticationRequest {
+	
+	private String strategy;
 	private String email;
 	private String password;
 	

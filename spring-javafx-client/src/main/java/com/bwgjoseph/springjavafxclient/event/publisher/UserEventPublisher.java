@@ -4,8 +4,10 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
+import com.bwgjoseph.springjavafxclient.entity.AuthenticationResponse;
 import com.bwgjoseph.springjavafxclient.entity.User;
 import com.bwgjoseph.springjavafxclient.event.UserCreatedEvent;
+import com.bwgjoseph.springjavafxclient.event.UserLoginEvent;
 import com.bwgjoseph.springjavafxclient.event.UserRemovedEvent;
 import com.bwgjoseph.springjavafxclient.event.UserPatchedEvent;
 
@@ -33,5 +35,10 @@ public class UserEventPublisher {
 	public void publishUserRemovedEvent(User user) {
 		UserRemovedEvent ure = new UserRemovedEvent(this, user);
 		this.applicationEventPublisher.publishEvent(ure);
+	}
+	
+	public void publishUserLoginEvent(AuthenticationResponse authenticationResponse) {
+		UserLoginEvent ule = new UserLoginEvent(this, authenticationResponse);
+		this.applicationEventPublisher.publishEvent(ule);
 	}
 }

@@ -39,11 +39,21 @@ public class UserService implements com.bwgjoseph.springjavafxclient.service.Ser
 	}
 
 	public void create() throws JSONException {
-    	JSONObject newUser = new JSONObject();
-		newUser.put("email", "venago2680@insertswork5.com");
-		newUser.put("password", "password");
-
-		this.feathersClient.create(USER_SERVICE, newUser, onResult("Create"));
+		try {
+			// try using factory method?
+			// https://www.logicbig.com/tutorials/misc/jackson/json-creator.html
+			// https://sharing.luminis.eu/blog/flexible-immutability-with-jackson-and-lombok/
+			JSONObject newUser = User.builder()
+					._id("1221")
+					.email("venago2680@insertswork.com")
+					.password("password")
+					.build()
+					.toJSONObject();
+			
+			this.feathersClient.create(USER_SERVICE, newUser, onResult("Create"));
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
     }
 
 	public void remove(String userId) {
