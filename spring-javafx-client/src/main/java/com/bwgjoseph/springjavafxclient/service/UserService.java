@@ -35,6 +35,12 @@ public class UserService implements com.bwgjoseph.springjavafxclient.service.Ser
 		// This way, it makes it flexible to let caller perform whatever they want on the callback
 		this.feathersClient.find(USER_SERVICE, onResult("Find"));
 		// Will only get the list the 2nd time it gets called
+		try {
+			this.feathersClient.findWithParams(USER_SERVICE, onParamsResult("Find"));
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		
 		return this.userList;
 	}
 
@@ -60,6 +66,31 @@ public class UserService implements com.bwgjoseph.springjavafxclient.service.Ser
 		this.feathersClient.remove(USER_SERVICE, userId, onResult("Remove"));
 	}
 	
+	private Ack onParamsResult(String event) {
+		return result -> {
+		  if (result[0] != null) {
+			  log.error("An error has occurred: " + result[0].toString());
+			  return;
+		  }
+
+		  try {
+		    String prettyAuth = null;
+			ObjectMapper mapper = new ObjectMapper();
+			if ("Find".equals(event)) {
+				userList = Arrays.asList(mapper.readValue(result[1].toString(), User[].class));
+				prettyAuth = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(userList);
+			} else {
+				User user = mapper.readValue(result[1].toString(), User.class);
+				prettyAuth = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(user);
+			}
+			
+			log.info("onParamsResult" + event + ": " + prettyAuth);
+		  } catch (JsonProcessingException e) {
+			e.printStackTrace();
+		  }
+		};
+    }
+	
 	// Version 2
 	private Ack onResult(String event) {
 		return result -> {
@@ -79,7 +110,7 @@ public class UserService implements com.bwgjoseph.springjavafxclient.service.Ser
 				prettyAuth = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(user);
 			}
 			
-			log.info("onUser" + event + ": " + prettyAuth);
+			log.info("onResult" + event + ": " + prettyAuth);
 		  } catch (JsonProcessingException e) {
 			e.printStackTrace();
 		  }

@@ -14,6 +14,7 @@ The key concept is to demo on how to:
 8. Use of [configuration-metadata](https://docs.spring.io/spring-boot/docs/2.3.1.RELEASE/reference/html/appendix-configuration-metadata.html#configuration-metadata-annotation-processor) to provide auto-completion in `application.properties`
 9. Use of Spring-Security [org.springframework.security.core.Authentication](https://docs.spring.io/spring-security/site/docs/5.4.1/api/) to store authenticated user into `SecurityContextHolder` and allow to retrieve via `@AuthenticatedPrincipal` or `@CurrentUser`
 10. Easily use of POJO object and send through websocket using `ObjectMapper` and `JSONObject`. See `AuthenticationRequest` or `User` entity class `toJSONObject` method
+11. Use of `spring-boot-starter-data-mongodb` to construct `Query` object
 
 The following are yet to be done:
 
@@ -24,6 +25,11 @@ The following are yet to be done:
 5. Add support for params in CRUD
 6. Use native query builder (like mongo-sdk) to write the query, and then output to json which will be sent to server through socket
 7. Initialize `ObjectMapper` with default prettyprint and timeformat etc
+8. Use of `Converter` to convert to `JSONObject` - See [spring-data-custom-converter](https://medium.com/@dvvivek/spring-data-custom-converter-f73e66297098)
+9. Use of `Annotation` to auto convert `POJO to JSONObject`?
+https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/reactive/result/method/annotation/PrincipalMethodArgumentResolver.html
+https://github.com/rwinch/spring-security51-by-example-reactive/blob/master/message/src/main/java/sample/message/CurrentUserIdArgumentResolver.java
+https://stackoverflow.com/questions/18343129/custom-annotation-binding-in-spring-controller
 
 ## Configuration
 
